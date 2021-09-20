@@ -1,0 +1,40 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+
+group 'org.example'
+version '1.0-SNAPSHOT'
+mainClassName = 'Demo'
+
+repositories {
+    mavenCentral()
+    maven {
+        url "https://dl.cloudsmith.io/public/electron-studio/jaylib/maven/"
+    }
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+    implementation 'uk.co.electronstudio.jaylib:jaylib:3.7.+'
+    implementation 'uk.co.electronstudio.jaylib:jaylib-natives-windows-x86_64:3.7.+'
+    implementation 'uk.co.electronstudio.jaylib:jaylib-natives-macosx-x86_64:3.7.+'
+    implementation 'uk.co.electronstudio.jaylib:jaylib-natives-linux-x86_64:3.7.+'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+
+distributions {
+    main {
+        contents {
+            into('resources'){
+                from 'resources'
+            }
+        }
+    }
+}
+
