@@ -17,8 +17,8 @@ Edit `Main.java` with your own code.  (You can delete the examples.)  Then
 
 To run:
 
-`./gradlew run`
+    ./gradlew run
 
 To build a zip file you can distribute:
 
-`./gradlew distZip`
+    ./gradlew distZip
