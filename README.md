@@ -2,13 +2,18 @@
 
 You can import this project into IntelliJ or Eclipse.
 
-## Use it to run the included examples.
+## Use it to run the included examples in IntelliJ
 
-Find the example source file in IntelliJ and right-click on it and click `run`.
+Right-click on the example and select `run`.
+
+## Use it to run the included examples from the command line
+
+./gradlew run -Pmain=examples.HeightMap
+./gradlew run -Pmain=examples.CubicMap
 
 ## Use it as the basis of your own game.
 
-Edit `Main.java` with your own code.  Then
+Edit `Main.java` with your own code.  (You can delete the examples.)  Then
 
 To run:
 
