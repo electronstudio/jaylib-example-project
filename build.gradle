@@ -27,6 +27,7 @@ dependencies {
     implementation 'uk.co.electronstudio.jaylib:jaylib-natives-linux-x86_64:3.7.+'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
     implementation 'org.kotlinmath:complex-numbers:1.0+'
+    implementation "org.jetbrains.kotlinx:kotlinx-collections-immutable:0.3.+"
 }
 
 application {
