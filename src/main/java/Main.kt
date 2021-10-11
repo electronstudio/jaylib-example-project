@@ -1,6 +1,8 @@
+import com.raylib.Jaylib.*
 import kotlin.jvm.JvmStatic
 import com.raylib.Raylib
-import com.raylib.Jaylib.*
+import com.raylib.Raylib.*
+
 import kotlinx.collections.immutable.PersistentList
 import kotlinx.collections.immutable.PersistentMap
 import kotlinx.collections.immutable.persistentListOf
@@ -22,12 +24,13 @@ class Vector2(val x: Int, val y: Int) {
 }
 
 enum class Direction(val x: Int, val y: Int) {
-    UP(0, 1), DOWN(0, -1), LEFT(-1, 0), RIGHT(1, 0)
+    UP(0, 1), DOWN(0, -1), LEFT(-1, 0), RIGHT(1, 0), NONE (0,0), SPAWN(0,0)
 }
 
 class Snake(
         val segments: PersistentList<Segment> = persistentListOf(Segment(Vector2(0, 0), Vector2(0, 0))),
         val direction: Direction = Direction.UP,
+        val color: Raylib.Color = RED
         //val position: Vector2 = Vector2(0, 0)
 ) {
 }
@@ -61,7 +64,7 @@ class Game {
 
 
     @Volatile
-    var currentState = State(persistentMapOf(Pair(0, Snake())))
+    var currentState = State(persistentMapOf())
     var oldState = currentState
     val inputArray = HashMap<Long, Input>()
 
@@ -89,16 +92,18 @@ class Game {
                 IsKeyDown(KEY_DOWN) -> Direction.DOWN
                 IsKeyDown(KEY_LEFT) -> Direction.LEFT
                 IsKeyDown(KEY_RIGHT) -> Direction.RIGHT
+                IsKeyDown(KEY_SPACE) -> Direction.SPAWN
                 else -> null
             }
-
-            var input = Input()
-
-            //var inputs = persistentMapOf<Int, Direction>()
             if (inputDirection != null) {
+                val input = Input()
+
+                //var inputs = persistentMapOf<Int, Direction>()
+                //
                 input.playerInputs.put(0, inputDirection)
+                //}
+                inputArray.put(frame - 50, input)
             }
-            inputArray.put(frame-50, input)
 
             // if(frame>100) {
             oldState = nextState(inputArray.getOrDefault(frame-101 , Input()), oldState)
@@ -124,7 +129,17 @@ class Game {
     fun nextState(inputs: Input, state: State): State {
         var newSnakes = state.snakes
 
-        for ((id, snake) in state.snakes) {
+//        if(newSnakes.size==0){
+//            newSnakes = newSnakes.put(0, Snake())
+//        }
+
+        for ((id, input) in inputs.playerInputs){
+            if(input == Direction.SPAWN){
+                newSnakes = newSnakes.put(id, Snake())
+            }
+        }
+
+        for ((id, snake) in newSnakes) {
             var segments = snake.segments
 
             val input = inputs.playerInputs.get(id)
@@ -170,7 +185,14 @@ class Game {
 
         for (snake in state.snakes.values) {
             for (segment in snake.segments) {
-                DrawLineEx(convertRL(segment.start), convertRL(segment.end), 1f, WHITE)
+
+                DrawLineEx(convertRL(segment.start), convertRL(segment.end), 22f, WHITE)
+                DrawLineEx(convertRL(segment.start), convertRL(segment.end), 20f, snake.color)
+                DrawCircle(convertRL(segment.start).x().toInt(), convertRL(segment.start).y().toInt(), 13f, WHITE)
+                DrawCircle(convertRL(segment.start).x().toInt(), convertRL(segment.start).y().toInt(), 12f, snake.color)
+
+                DrawCircle(convertRL(segment.end).x().toInt(), convertRL(segment.end).y().toInt(), 13f, WHITE)
+                DrawCircle(convertRL(segment.end).x().toInt(), convertRL(segment.end).y().toInt(), 12f, snake.color)
             }
         }
 
