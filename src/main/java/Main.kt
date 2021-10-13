@@ -2,11 +2,8 @@ import com.raylib.Jaylib.*
 import kotlin.jvm.JvmStatic
 import com.raylib.Raylib
 import com.raylib.Raylib.*
+import kotlinx.collections.immutable.*
 
-import kotlinx.collections.immutable.PersistentList
-import kotlinx.collections.immutable.PersistentMap
-import kotlinx.collections.immutable.persistentListOf
-import kotlinx.collections.immutable.persistentMapOf
 import kotlin.concurrent.thread
 
 
@@ -27,8 +24,8 @@ enum class Direction(val x: Int, val y: Int) {
     UP(0, 1), DOWN(0, -1), LEFT(-1, 0), RIGHT(1, 0), NONE (0,0), SPAWN(0,0)
 }
 
-class Snake(
-        val segments: PersistentList<Segment> = persistentListOf(Segment(Vector2(0, 0), Vector2(0, 0))),
+class Snake(x: Int = 0, y: Int = 0,
+        val segments: PersistentList<Segment> = persistentListOf(Segment(Vector2(x, y), Vector2(x, y))),
         val direction: Direction = Direction.UP,
         val color: Raylib.Color = RED
         //val position: Vector2 = Vector2(0, 0)
@@ -62,18 +59,41 @@ class Game {
 
     var zoom = 1.0
 
+    @Volatile
+    var updateTime: Long = 0
 
     @Volatile
     var currentState = State(persistentMapOf())
     var oldState = currentState
     val inputArray = HashMap<Long, Input>()
 
+    init {
+        val snakes = HashMap<Int, Snake>()
+        for (i in 1..1000) {
+            val color = ColorFromHSV(i.toFloat()*3, 1f, 1f)
+            val snake = Snake(x=i*10, y=i*10, color = color, direction = Direction.RIGHT)
+            snakes.put(i, snake)
+            //println("Snake $i, color ${snake.color.r()} ${snake.color.g()} ${snake.color.b()}")
+        }
+
+
+        currentState = State(snakes.toImmutableMap().toPersistentMap())
+        oldState = currentState
+    }
+
 
     fun run() {
         Raylib.InitWindow(WIDTH, HEIGHT, "Demo")
         Raylib.SetTargetFPS(60)
 
-        val updateThread = thread { update() }
+
+
+        val updateThread = thread {
+            val t = System.nanoTime()
+            update()
+            val d = System.nanoTime()-t
+            println(d)
+        }
 
         while (!Raylib.WindowShouldClose()) {
             draw(currentState)
@@ -87,6 +107,7 @@ class Game {
         val startTime = System.nanoTime()
         //var timer = System.nanoTime()
         while (true) {
+            val frameStartTime = System.nanoTime()
             val inputDirection = when {
                 IsKeyDown(KEY_UP) -> Direction.UP
                 IsKeyDown(KEY_DOWN) -> Direction.DOWN
@@ -116,12 +137,18 @@ class Game {
             currentState = tempState //nextState(inputArray.getOrDefault(frame, Input()), state)
 
             // }
+
+            val frameTimeTaken = System.nanoTime() - frameStartTime
+            updateTime = frameTimeTaken/1000000
+
             frame++
             val timer = startTime + frame * FRAME_TIME_NANOS
 
             while (System.nanoTime() < timer) {
-
+                //Thread.sleep(1)
             }
+
+
         }
     }
 
@@ -156,7 +183,7 @@ class Game {
             segments = segments.remove(segments.last()).add(newLastSegment)
 
 
-            val newSnake = Snake(segments, direction)
+            val newSnake = Snake(0, 0, segments, direction, snake.color)
             newSnakes = newSnakes.put(id, newSnake)
         }
         return State(newSnakes)
@@ -179,24 +206,40 @@ class Game {
         return Raylib.Vector2().x((p.x / zoomX) + WIDTH / 2).y((p.y / zoomY) + HEIGHT / 2)
     }
 
+    fun convertRL(p: Vector2, rlv: Raylib.Vector2): Raylib.Vector2 {
+
+        return rlv.x((p.x / zoomX) + WIDTH / 2).y((p.y / zoomY) + HEIGHT / 2)
+    }
+
+
     private fun draw(state: State) {
         BeginDrawing()
         ClearBackground(BLACK)
 
         for (snake in state.snakes.values) {
+            //println("${snake.color.r()} ${snake.color.g()} ${snake.color.b()}")
             for (segment in snake.segments) {
+                val rlv = Raylib.Vector2()
+                val rlv2 = Raylib.Vector2()
+                rlv.deallocate(false)
+                rlv2.deallocate(false)
 
-                DrawLineEx(convertRL(segment.start), convertRL(segment.end), 22f, WHITE)
-                DrawLineEx(convertRL(segment.start), convertRL(segment.end), 20f, snake.color)
-                DrawCircle(convertRL(segment.start).x().toInt(), convertRL(segment.start).y().toInt(), 13f, WHITE)
-                DrawCircle(convertRL(segment.start).x().toInt(), convertRL(segment.start).y().toInt(), 12f, snake.color)
+                DrawLineEx(convertRL(segment.start, rlv), convertRL(segment.end, rlv2), 22f, WHITE)
+                DrawLineEx(convertRL(segment.start, rlv), convertRL(segment.end, rlv2), 20f, snake.color)
+                DrawCircle(convertRL(segment.start, rlv).x().toInt(), convertRL(segment.start, rlv2).y().toInt(), 13f, WHITE)
+                DrawCircle(convertRL(segment.start, rlv).x().toInt(), convertRL(segment.start, rlv2).y().toInt(), 12f, snake.color)
 
-                DrawCircle(convertRL(segment.end).x().toInt(), convertRL(segment.end).y().toInt(), 13f, WHITE)
-                DrawCircle(convertRL(segment.end).x().toInt(), convertRL(segment.end).y().toInt(), 12f, snake.color)
+                DrawCircle(convertRL(segment.end, rlv).x().toInt(), convertRL(segment.end, rlv2).y().toInt(), 13f, WHITE)
+                DrawCircle(convertRL(segment.end, rlv).x().toInt(), convertRL(segment.end, rlv2).y().toInt(), 12f, snake.color)
+
+                rlv.deallocate()
+                rlv2.deallocate()
             }
         }
 
 
+
+        Raylib.DrawText(updateTime.toString(), 100, 20, 50, WHITE)
         DrawFPS(20, 20)
         EndDrawing()
     }
