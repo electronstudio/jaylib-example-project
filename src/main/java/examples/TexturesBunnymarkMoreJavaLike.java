@@ -60,7 +60,7 @@ public class TexturesBunnymarkMoreJavaLike {
     {
         // Update
         //----------------------------------------------------------------------------------
-        if (IsMouseButtonDown(MOUSE_LEFT_BUTTON))
+        if (IsMouseButtonDown(MOUSE_BUTTON_LEFT))
         {
             // Create more bunnies
             for (int i = 0; i < 100; i++)
