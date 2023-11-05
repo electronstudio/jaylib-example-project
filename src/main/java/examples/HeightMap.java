@@ -25,10 +25,9 @@ public class HeightMap {
 
 
         UnloadImage(image);
-        SetCameraMode(camera, CAMERA_ORBITAL);
 
         while(!WindowShouldClose()){
-            UpdateCamera(camera);
+            UpdateCamera(camera, CAMERA_ORBITAL);
             BeginDrawing();
             ClearBackground(RAYWHITE);
             BeginMode3D(camera);
