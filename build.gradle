@@ -12,12 +12,16 @@ mainClassName = project.properties['main'] ?: 'Main'
 
 repositories {
     mavenCentral()
+//    maven {
+//        url "https://s01.oss.sonatype.org/content/repositories/staging/"
+//        metadataSources { artifact() }
+//    }
 }
 
 dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
-    implementation 'uk.co.electronstudio.jaylib:jaylib:4.5.+'
+    implementation 'uk.co.electronstudio.jaylib:jaylib:5.0.+'
 }
 
 application {
