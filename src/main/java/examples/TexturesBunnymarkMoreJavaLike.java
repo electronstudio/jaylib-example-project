@@ -79,18 +79,20 @@ public class TexturesBunnymarkMoreJavaLike {
             }
         }
 
+        float width = texBunny.width();
+        float height = texBunny.height();
         // Update bunnies
         for (int i = 0; i < bunniesCount; i++)
         {
             bunnies[i].position.x += bunnies[i].speed.x;
             bunnies[i].position.y += bunnies[i].speed.y;
 
-            if (((bunnies[i].position.x + texBunny.width()/2.0) > screenWidth) ||
-                ((bunnies[i].position.x + texBunny.width()/2.0) < 0)){
+            if (((bunnies[i].position.x + width/2.0) > screenWidth) ||
+                ((bunnies[i].position.x + width/2.0) < 0)){
                 bunnies[i].speed.x *= -1;
             }
-            if (((bunnies[i].position.y + texBunny.height()/2.0) > screenHeight) ||
-                ((bunnies[i].position.y + texBunny.height()/2.0 - 40) < 0)) {
+            if (((bunnies[i].position.y + height/2.0) > screenHeight) ||
+                ((bunnies[i].position.y + height/2.0 - 40) < 0)) {
                 bunnies[i].speed.y *= -1;
             }
         }
@@ -115,7 +117,7 @@ public class TexturesBunnymarkMoreJavaLike {
 
             DrawRectangle(0, 0, screenWidth, 40, BLACK);
             DrawText(TextFormat("bunnies: "+bunniesCount), 120, 10, 20, GREEN);
-            DrawText(TextFormat("batched draw calls: "+ 1 + bunniesCount/MAX_BATCH_ELEMENTS), 320, 10, 20, MAROON);
+            DrawText(TextFormat("batched draw calls: " + (1+bunniesCount/MAX_BATCH_ELEMENTS)), 320, 10, 20, MAROON);
 
             DrawFPS(10, 10);
 
