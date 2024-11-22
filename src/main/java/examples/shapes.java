@@ -1,6 +1,7 @@
 package examples;
 
-import static com.raylib.Jaylib.*;
+
+import static com.raylib.Colors.*;
 import static com.raylib.Raylib.*;
 
 public class shapes {

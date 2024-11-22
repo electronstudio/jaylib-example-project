@@ -1,9 +1,11 @@
 package examples;
 
-import com.raylib.Jaylib;
 import com.raylib.Raylib;
 
-import static com.raylib.Jaylib.*;
+import static com.raylib.Colors.*;
+import static com.raylib.Helpers.newColor;
+import static com.raylib.Raylib.*;
+
 
 public class TexturesBunnymarkMoreJavaLike {
 
@@ -71,7 +73,7 @@ public class TexturesBunnymarkMoreJavaLike {
                     bunnies[bunniesCount].position.y = GetMousePosition().y();
                     bunnies[bunniesCount].speed.x = (float)(GetRandomValue(-250, 250)/60.0f);
                     bunnies[bunniesCount].speed.y = (float)(GetRandomValue(-250, 250)/60.0f);
-                    bunnies[bunniesCount].color = new Jaylib.Color(GetRandomValue(50, 240),
+                    bunnies[bunniesCount].color = newColor(GetRandomValue(50, 240),
                             GetRandomValue(80, 240),
                             GetRandomValue(100, 240), 255 );
                     bunniesCount++;

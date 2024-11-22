@@ -3,7 +3,7 @@ package examples;
 import org.bytedeco.javacpp.Pointer;
 import org.bytedeco.javacpp.ShortPointer;
 
-import static com.raylib.Jaylib.*;
+import static com.raylib.Colors.*;
 import static com.raylib.Raylib.Vector2;
 import static com.raylib.Raylib.*;
 

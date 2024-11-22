@@ -1,9 +1,8 @@
 package examples;
 
 
-import static com.raylib.Jaylib.RED;
-import static com.raylib.Jaylib.VIOLET;
-import static com.raylib.Jaylib.RAYWHITE;
+
+import static com.raylib.Colors.*;
 import static com.raylib.Raylib.*;
 
 
@@ -17,6 +16,8 @@ public class HeightMap {
                 .up(new Vector3().x(0).y(1).z(0))
                 .fovy(45).projection(CAMERA_PERSPECTIVE);
 
+        String appHomeDir = System.getenv("APP_HOME");
+        System.out.println(appHomeDir);
         Image image = LoadImage("resources/heightmap.png");
         Texture texture = LoadTextureFromImage(image);
         Mesh mesh = GenMeshHeightmap(image, new Vector3().x(16).y(8).z(16));

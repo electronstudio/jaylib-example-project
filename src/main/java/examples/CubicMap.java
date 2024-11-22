@@ -11,10 +11,8 @@ package examples; /*************************************************************
 
 
 
-import static com.raylib.Jaylib.RAYWHITE;
-import static com.raylib.Jaylib.GREEN;
-import static com.raylib.Jaylib.GRAY;
-import static com.raylib.Jaylib.WHITE;
+
+import static com.raylib.Colors.*;
 import static com.raylib.Raylib.*;
 
 public class CubicMap {

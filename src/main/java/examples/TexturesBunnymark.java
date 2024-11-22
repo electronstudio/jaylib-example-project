@@ -1,10 +1,8 @@
 package examples;
 
-import static com.raylib.Jaylib.RAYWHITE;
-import static com.raylib.Jaylib.GREEN;
-import static com.raylib.Jaylib.BLACK;
-import static com.raylib.Jaylib.MAROON;
 
+
+import static com.raylib.Colors.*;
 import static com.raylib.Raylib.*;
 
 public class TexturesBunnymark {

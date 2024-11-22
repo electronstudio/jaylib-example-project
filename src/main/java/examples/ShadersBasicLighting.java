@@ -4,7 +4,7 @@ package examples;
 import examples.RLights.Light;
 import org.bytedeco.javacpp.FloatPointer;
 
-import static com.raylib.Jaylib.*;
+import static com.raylib.Colors.*;
 import static com.raylib.Raylib.Vector3;
 import static com.raylib.Raylib.*;
 import static examples.RLights.Light.MAX_LIGHTS;

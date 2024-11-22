@@ -1,9 +1,11 @@
 package examples;
 
-import com.raylib.Jaylib;
+
 import com.raylib.Raylib;
 
-import static com.raylib.Jaylib.*;
+import static com.raylib.Colors.*;
+import static com.raylib.Helpers.newVector2;
+import static com.raylib.Raylib.*;
 
 
 public class Physac {
@@ -22,11 +24,11 @@ public class Physac {
         InitPhysics();
 
         // Create floor rectangle physics body
-        PhysicsBody floor = CreatePhysicsBodyRectangle(new Jaylib.Vector2( screenWidth/2.0f, (float)screenHeight), 500, 100, 10);
+        PhysicsBody floor = CreatePhysicsBodyRectangle(newVector2( screenWidth/2.0f, (float)screenHeight), 500, 100, 10);
         floor.enabled(false);        // Disable body state to convert it to static (no dynamics, but collisions)
 
         // Create obstacle circle physics body
-        PhysicsBody circle = CreatePhysicsBodyCircle(new Jaylib.Vector2( screenWidth/2.0f, screenHeight/2.0f ), 45, 10);
+        PhysicsBody circle = CreatePhysicsBodyCircle(newVector2( screenWidth/2.0f, screenHeight/2.0f ), 45, 10);
         circle.enabled(false);        // Disable body state to convert it to static (no dynamics, but collisions)
 
         SetTargetFPS(60);               // Set our game to run at 60 frames-per-second
@@ -43,10 +45,10 @@ public class Physac {
             {
                 ResetPhysics();
 
-                floor = CreatePhysicsBodyRectangle(new Jaylib.Vector2(screenWidth/2.0f, (float)screenHeight ), 500, 100, 10);
+                floor = CreatePhysicsBodyRectangle(newVector2(screenWidth/2.0f, (float)screenHeight ), 500, 100, 10);
                 floor.enabled(false);
 
-                circle = CreatePhysicsBodyCircle(new Jaylib.Vector2(screenWidth/2.0f, screenHeight/2.0f ), 45, 10);
+                circle = CreatePhysicsBodyCircle(newVector2(screenWidth/2.0f, screenHeight/2.0f ), 45, 10);
                 circle.enabled(false);
             }
 

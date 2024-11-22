@@ -1,13 +1,14 @@
-import static com.raylib.Jaylib.RAYWHITE;
-import static com.raylib.Jaylib.VIOLET;
+import static com.raylib.Colors.RAYWHITE;
+import static com.raylib.Colors.VIOLET;
 import static com.raylib.Raylib.*;
 
 public class Main {
     public static void main(String args[]) {
+        String appHomeDir = System.getenv("APP_HOME");
+        System.out.println(appHomeDir);
         InitWindow(800, 450, "Demo");
         SetTargetFPS(60);
-        Camera3D camera = new Camera3D()
-                ._position(new Vector3().x(18).y(16).z(18))
+        Camera3D camera = new Camera3D()._position(new Vector3().x(18).y(16).z(18))
                 .target(new Vector3())
                 .up(new Vector3().x(0).y(1).z(0))
                 .fovy(45).projection(CAMERA_PERSPECTIVE);
