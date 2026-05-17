@@ -1,33 +1,35 @@
 package examples;
 
-
 import static com.raylib.Colors.*;
+import static com.raylib.Helpers.*;
 import static com.raylib.Raylib.*;
 
 public class shapes {
 
-
-
     //------------------------------------------------------------------------------------
-// Program main entry point
-//------------------------------------------------------------------------------------
-    public static void main(String[] s)
-    {
+    // Program main entry point
+    //------------------------------------------------------------------------------------
+    public static void main(String[] s) {
         // Initialization
         //--------------------------------------------------------------------------------------
-    int screenWidth = 800;
-    int screenHeight = 450;
+        int screenWidth = 800;
+        int screenHeight = 450;
 
-        InitWindow(screenWidth, screenHeight, "raylib [shapes] example - basic shapes drawing");
+        InitWindow(
+            screenWidth,
+            screenHeight,
+            "raylib [shapes] example - basic shapes drawing"
+        );
 
         float rotation = 0.0f;
 
-        SetTargetFPS(60);               // Set our game to run at 60 frames-per-second
+        SetTargetFPS(60); // Set our game to run at 60 frames-per-second
         //--------------------------------------------------------------------------------------
 
         // Main game loop
-        while (!WindowShouldClose())    // Detect window close button or ESC key
-        {
+        while (
+            !WindowShouldClose() // Detect window close button or ESC key
+        ) {
             // Update
             //----------------------------------------------------------------------------------
             rotation += 0.2f;
@@ -39,19 +41,37 @@ public class shapes {
 
             ClearBackground(RAYWHITE);
 
-            DrawText("some basic shapes available on raylib", 20, 20, 20, DARKGRAY);
+            DrawText(
+                "some basic shapes available on raylib",
+                20,
+                20,
+                20,
+                DARKGRAY
+            );
 
             // Circle shapes and lines
-            DrawCircle(screenWidth/5, 120, 35, DARKBLUE);
-            DrawCircleGradient(screenWidth/5, 220, 60, GREEN, SKYBLUE);
-            DrawCircleLines(screenWidth/5, 340, 80, DARKBLUE);
+            DrawCircle(screenWidth / 5, 120, 35, DARKBLUE);
+            DrawCircleGradient(
+                newVector2(screenWidth / 5, 220),
+                60f,
+                GREEN,
+                SKYBLUE
+            );
+            DrawCircleLines(screenWidth / 5, 340, 80, DARKBLUE);
 
             // Rectangle shapes and lines
-            DrawRectangle(screenWidth/4*2 - 60, 100, 120, 60, RED);
-            DrawRectangleGradientH(screenWidth/4*2 - 90, 170, 180, 130, MAROON, GOLD);
-            DrawRectangleLines(screenWidth/4*2 - 40, 320, 80, 60, ORANGE);  // NOTE: Uses QUADS internally, not lines
+            DrawRectangle((screenWidth / 4) * 2 - 60, 100, 120, 60, RED);
+            DrawRectangleGradientH(
+                (screenWidth / 4) * 2 - 90,
+                170,
+                180,
+                130,
+                MAROON,
+                GOLD
+            );
+            DrawRectangleLines((screenWidth / 4) * 2 - 40, 320, 80, 60, ORANGE); // NOTE: Uses QUADS internally, not lines
 
-        /*    // Triangle shapes and lines
+            /*    // Triangle shapes and lines
             DrawTriangle((Vector2){ screenWidth/4.0f *3.0f, 80.0f },
                     (Vector2){ screenWidth/4.0f *3.0f - 60.0f, 150.0f },
                     (Vector2){ screenWidth/4.0f *3.0f + 60.0f, 150.0f }, VIOLET);
@@ -74,7 +94,7 @@ public class shapes {
 
         // De-Initialization
         //--------------------------------------------------------------------------------------
-        CloseWindow();        // Close window and OpenGL context
+        CloseWindow(); // Close window and OpenGL context
         //--------------------------------------------------------------------------------------
 
         return;
