@@ -22,3 +22,7 @@ To run:
 To build a zip file you can distribute:
 
     ./gradlew distZip
+
+To build an uberjar:
+
+    ./gradlew shadowJar
